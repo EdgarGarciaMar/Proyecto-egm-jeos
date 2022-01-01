@@ -14,7 +14,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 
-        <title>Productos</title>
+        <title>Grafica de Productos</title>
     </head>
     <body>
 
@@ -26,7 +26,7 @@
 
             <div class="card bg-light">
                 <div class="card-header">
-                    <h3 class="text-center">Grafico</h3>
+                    <h3 class="text-center">Gráfico</h3>
                 </div>
                 <div class="card-body">
                     <center>

@@ -250,7 +250,7 @@ public class CategoriaServlet extends HttpServlet {
     }
 
     private void mostrarGrafica(HttpServletRequest request, HttpServletResponse response) {
-        JFreeChart grafica = ChartFactory.createPieChart("Productos por Categoria", 
+        JFreeChart grafica = ChartFactory.createPieChart("Categorias de armas", 
                 obtenerGraficaProductosPorCategoria(), true, true, Locale.getDefault());        
         String archivo = getServletConfig().getServletContext().getRealPath("/grafica.png");
         try {

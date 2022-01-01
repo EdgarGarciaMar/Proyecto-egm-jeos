@@ -261,7 +261,7 @@ public class ProductoServlet extends HttpServlet {
     private void mostrarGrafica(HttpServletRequest request, HttpServletResponse response) {
         
         JFreeChart graficaProductos = ChartFactory.createBarChart(
-         "Productos",           
+         "Armas",           
          "",            
          "Existencia",            
          obtenerExistenciaProductos(),          
