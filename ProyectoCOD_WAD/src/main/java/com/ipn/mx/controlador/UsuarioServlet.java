@@ -144,7 +144,7 @@ public class UsuarioServlet extends HttpServlet {
             dto=dao.read(dto);
             EnviarMail email = new EnviarMail();
             String destinatario = dto.getEntidad().getEmail();
-            String asunto = "Eliminación de cuenta";
+            String asunto = "COD-CORP Eliminación de cuenta";
             String texto = "Usted ha eliminado su cuenta en plataforma de forma exitosa...";
             email.enviarCorreo(destinatario, asunto, texto);
             request.setAttribute("mensaje", "Usuario creado con exito.");
@@ -183,7 +183,7 @@ public class UsuarioServlet extends HttpServlet {
             dto = dao.read(dto);
             EnviarMail email = new EnviarMail();
             String destinatario = dto.getEntidad().getEmail();
-            String asunto = "Consulta de datos";
+            String asunto = "COD-CORP Consulta de datos";
             String texto = "Ustede ha consultado sus datos en plataforma de forma exitosa...";
             email.enviarCorreo(destinatario, asunto, texto);
             request.setAttribute("mensaje", "Usuario creado con exito.");
@@ -216,7 +216,7 @@ public class UsuarioServlet extends HttpServlet {
                 dao.update(dto);
                 EnviarMail email = new EnviarMail();
                 String destinatario = dto.getEntidad().getEmail();
-                String asunto = "Actuaalizacion de datos en plataforma";
+                String asunto = "COD-CORP Actuaalizacion de datos en plataforma";
                 String texto = "Ustede ha actualizado su datos en plataforma de forma exitosa...";
                 email.enviarCorreo(destinatario, asunto, texto);
                 request.setAttribute("mensaje", "Usuario creado con exito.");
@@ -225,7 +225,7 @@ public class UsuarioServlet extends HttpServlet {
                 dao.create(dto);
                 EnviarMail email = new EnviarMail();
                 String destinatario = dto.getEntidad().getEmail();
-                String asunto = "Registro en plataforma exitoso";
+                String asunto = "COD-CORP Registro en plataforma exitoso";
                 String texto = "Ustede ha sido registrado en plataforma de forma exitosa...";
                 email.enviarCorreo(destinatario, asunto, texto);
                 request.setAttribute("mensaje", "Usuario creado con exito.");
