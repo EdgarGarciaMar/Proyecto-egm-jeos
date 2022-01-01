@@ -31,9 +31,9 @@ public class UsuarioDAO {
     private Connection conexion;
     
     public Connection conectar() {
-        String user = "hbxntbcggfqvpw";
-        String pwd = "f37cb4cb0eda164e5e14785687995c70a23efe1e7112d2fbb3821d1efe340987";
-        String url="jdbc:postgresql://ec2-34-236-87-247.compute-1.amazonaws.com:5432/d15ql48g1bj9mp";
+        String user = "lsgdwhnimlwnhy";
+        String pwd = "61be904fc01af6ba2fd8cb948a9bf59158b20f8d50d83604a0898179e26e3ba4";
+        String url="jdbc:postgresql://ec2-3-227-154-49.compute-1.amazonaws.com:5432/d2urcruufronr8";
         String pgDriver = "org.postgresql.Driver";
         try {
             Class.forName(pgDriver);
