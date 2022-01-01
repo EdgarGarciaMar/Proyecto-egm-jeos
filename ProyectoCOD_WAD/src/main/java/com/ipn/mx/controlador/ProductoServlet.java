@@ -10,6 +10,8 @@ import com.ipn.mx.modelo.dao.GraficaDAO;
 import com.ipn.mx.modelo.dao.ProductoDAO;
 import com.ipn.mx.modelo.dto.GraficaDTO;
 import com.ipn.mx.modelo.dto.ProductoDTO;
+import com.ipn.mx.modelo.dto.UsuarioDTO;
+import com.ipn.mx.utilerias.EnviarMail;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -62,7 +64,7 @@ public class ProductoServlet extends HttpServlet {
             response.sendRedirect("iniciarSesion.jsp");
             return;
         }
-        
+
         String accion = request.getParameter("accion");
 
         if (accion.equals("listaDeProductos")) {
@@ -88,6 +90,14 @@ public class ProductoServlet extends HttpServlet {
                                 } else {
                                     if (accion.equals("graficar")) {
                                         mostrarGrafica(request, response);
+                                    } else {
+                                        if (accion.equals("comprar")) {
+                                            comprarProducto(request, response);
+                                        } else {
+                                            if (accion.equals("guardarCompra")) {
+                                                almacenarCompra(request, response);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -246,11 +256,11 @@ public class ProductoServlet extends HttpServlet {
             byte[] b = JasperRunManager.runReportToPdf(reporte.getPath(), null, dao.conectar());
             response.setContentType("application/pdf");
             response.setContentLength(b.length);
-            
-            sos.write(b,0,b.length);
+
+            sos.write(b, 0, b.length);
             sos.flush();
             sos.close();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JRException ex) {
@@ -259,15 +269,15 @@ public class ProductoServlet extends HttpServlet {
     }
 
     private void mostrarGrafica(HttpServletRequest request, HttpServletResponse response) {
-        
+
         JFreeChart graficaProductos = ChartFactory.createBarChart(
-         "Armas",           
-         "",            
-         "Existencia",            
-         obtenerExistenciaProductos(),          
-         PlotOrientation.VERTICAL,           
-         true, true, false);
-        
+                "Armas",
+                "",
+                "Existencia",
+                obtenerExistenciaProductos(),
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
         String archivo = getServletConfig().getServletContext().getRealPath("/graficaProductos.png");
         try {
             ChartUtils.saveChartAsPNG(new File(archivo), graficaProductos, 1000, 500);
@@ -277,21 +287,76 @@ public class ProductoServlet extends HttpServlet {
             Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private CategoryDataset obtenerExistenciaProductos(){
-        DefaultCategoryDataset dataset  = new DefaultCategoryDataset();
+
+    private CategoryDataset obtenerExistenciaProductos() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         ProductoDAO dao = new ProductoDAO();
         try {
             List datos = dao.readAll();
             for (int i = 0; i < datos.size(); i++) {
                 ProductoDTO dto = (ProductoDTO) datos.get(i);
-                dataset.addValue(dto.getEntidad().getExistencia(), "("+dto.getEntidad().getIdProducto()+") "+dto.getEntidad().getNombreProducto(), "Producto");
+                dataset.addValue(dto.getEntidad().getExistencia(), "(" + dto.getEntidad().getIdProducto() + ") " + dto.getEntidad().getNombreProducto(), "Producto");
                 //dataset.addValue(dto.getEntidad().getExistencia(),"Producto", "("+dto.getEntidad().getIdProducto()+") "+dto.getEntidad().getNombreProducto());
             }
         } catch (SQLException ex) {
             Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         return dataset;
+    }
+
+    private void comprarProducto(HttpServletRequest request, HttpServletResponse response) {
+        ProductoDAO dao = new ProductoDAO();
+        ProductoDTO dto = new ProductoDTO();
+        dto.getEntidad().setIdProducto(Integer.parseInt(request.getParameter("id")));
+
+        RequestDispatcher vista = request.getRequestDispatcher("/productos/comprarForm.jsp");
+
+        try {
+            dto = dao.read(dto);
+            request.setAttribute("producto", dto);
+            vista.forward(request, response);
+
+        } catch (SQLException | ServletException | IOException ex) {
+            Logger.getLogger(ProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void almacenarCompra(HttpServletRequest request, HttpServletResponse response) {
+        ProductoDAO dao = new ProductoDAO();
+        ProductoDTO dto = new ProductoDTO();
+        UsuarioDTO dtou = new UsuarioDTO();
+
+        if (!request.getParameter("txtIdProducto").equals("")) {
+            dto.getEntidad().setIdProducto(Integer.parseInt(request.getParameter("txtIdProducto")));
+        }
+
+        dto.getEntidad().setNombreProducto(request.getParameter("txtNombre"));
+        dto.getEntidad().setDescripcionProducto(request.getParameter("txtDescripcion"));
+        dto.getEntidad().setPrecio(Float.parseFloat(request.getParameter("txtPrecio")));
+        dto.getEntidad().setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
+        dto.getEntidad().setStockMinimo(Integer.parseInt(request.getParameter("txtStock")));
+        dto.getEntidad().setClaveCategoria(Integer.parseInt(request.getParameter("txtClaveCategoria")));
+        dtou.getEntidad().setEmail(request.getParameter("txtCorreo"));
+        try {
+
+            if (!request.getParameter("txtIdProducto").equals("")) {//CREAR
+                //dao.Update(dto);
+                EnviarMail email = new EnviarMail();
+                String destinatario = dtou.getEntidad().getEmail();
+                String asunto = "COD-CORP Compra recibida";
+                String texto = "Su compra ha sido recivida en tienda, recuerde que esto es solo informativo, debera pasar a tienda para poder completar el proceso"+", Nombre:"+dto.getEntidad().getNombreProducto()+", Descripcion:"+dto.getEntidad().getDescripcionProducto()+", Precio por unidad:"+dto.getEntidad().getPrecio();
+                email.enviarCorreo(destinatario, asunto, texto);
+                request.setAttribute("mensaje", "Compra enviada con exito.");
+            } else {
+                dao.create(dto);
+                request.setAttribute("mensaje", "Producto almacenado con exito.");
+            }
+
+            listaDeProductos(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

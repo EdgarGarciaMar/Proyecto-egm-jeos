@@ -76,7 +76,7 @@
             </nav>
             
             <br/>
-            <h1>Productos</h1>
+            <h1>Productos: Armas a escala coleccionables</h1>
             <br/><br/>
 
             <div class="row">
@@ -126,7 +126,7 @@
                                 <th>Categoria (Clave)</th>
                                 <th>Eliminar</th>
                                 <th>Actualizar</th>
-                                <!--<th>Reporte</th>-->
+                                <th>Comprar</th>
                             </tr>
                         </thead>
                         <c:forEach var="dto" items="${listaDeProductos}">
@@ -161,9 +161,9 @@
                                     <td class="table-primary">
                                         <a href="ProductoServlet?accion=actualizar&id=<c:out value="${ dto.entidad.idProducto }"/>" class="btn btn-success">Actualizar</a>
                                     </td>
-<!--                                    <td>
-                                        <a href="#" class="btn btn-outline-info">Reporte</a>
-                                    </td>-->
+                                    <td>
+                                        <a href="ProductoServlet?accion=comprar&id=<c:out value="${ dto.entidad.idProducto }"/>" class="btn btn-outline-info">Comprar</a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </c:forEach>

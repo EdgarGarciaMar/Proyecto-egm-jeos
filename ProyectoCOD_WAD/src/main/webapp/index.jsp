@@ -96,7 +96,7 @@
             <div class="imagen">
                 <img src="https://i.pinimg.com/originals/e8/b3/6a/e8b36aa28b117a74853c3c27d30e35d5.gif" alt="Bienvenido" class="imgC">
             </div>
-
+            
 
         </div>
     </body>
