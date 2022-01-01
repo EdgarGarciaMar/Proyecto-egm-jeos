@@ -27,7 +27,7 @@
             
         </style>
         
-        <title>Ejercicio3</title>
+        <title>Inicio COD CORP</title>
     </head>
     <body>
         <div class="container">
@@ -46,7 +46,6 @@
                         </div>
                         <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Iniciar Sesión</button>
                     </form>
-                    <a href="./usuarios/usuariosForm.jsp">Crear Cuenta</a>
                 </div>
 
             </main>
