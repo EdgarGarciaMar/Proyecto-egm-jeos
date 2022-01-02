@@ -204,7 +204,7 @@ public class ProductoServlet extends HttpServlet {
                 EnviarMail email = new EnviarMail();
                 String destinatario = dtou.getEntidad().getEmail();
                 String asunto = "COD-CORP Compra recibida";
-                String texto = "Su compra ha sido recivida en tienda, recuerde que esto es solo informativo, debera pasar a tienda para poder completar el proceso"+", Nombre:"+dto.getEntidad().getNombreProducto()+", Descripcion:"+dto.getEntidad().getDescripcionProducto()+", Precio por unidad:"+dto.getEntidad().getPrecio();
+                String texto = "Su compra a sido recibida en tienda, recuerde que esto es solo informativo, debera pasar a tienda para poder completar el proceso"+", Nombre:"+dto.getEntidad().getNombreProducto()+", Descripcion:"+dto.getEntidad().getDescripcionProducto()+", Precio por unidad:"+dto.getEntidad().getPrecio();
                 email.enviarCorreo(destinatario, asunto, texto);
                 request.setAttribute("mensaje", "Compra enviada con exito.");
             } else {
