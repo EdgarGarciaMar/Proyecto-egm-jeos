@@ -73,7 +73,7 @@
                             <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" >
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1"><img src="./imagenes/contraseña.png" alt="imagen contraseña" width="30"/></span>
+                            <span class="input-group-text" id="basic-addon1"><img src="./imagenes/contrasena.png" alt="imagen contraseña" width="30"/></span>
                             <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" >
                         </div>
                         <button class="w-100 btn btn-lg  mt-3" type="submit">Iniciar Sesión</button>
