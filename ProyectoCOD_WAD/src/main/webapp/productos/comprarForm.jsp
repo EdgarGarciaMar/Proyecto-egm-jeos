@@ -187,7 +187,7 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-outline-primary">Guardar</button>     
+                        <button type="submit" class="btn btn-outline-primary">Ordenar</button>     
                     </form>
                 </div>
             </div>

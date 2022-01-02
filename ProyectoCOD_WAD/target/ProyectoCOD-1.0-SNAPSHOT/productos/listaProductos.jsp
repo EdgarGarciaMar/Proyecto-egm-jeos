@@ -81,6 +81,12 @@
                 <div class="card-header text-center" style="background-color:#3C3D3C; font-size:120%; color:#FFF;">
                     Productos
                 </div>
+                 <c:if test="${mensaje != null}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>${mensaje}</strong>
+                    <button class="btn-close" data-bs-dismiss="alert" aria-lbel="Close"></button>
+                </div>
+            </c:if>
                 <div class="card-body">
 
                     <table class="table table-dark">
