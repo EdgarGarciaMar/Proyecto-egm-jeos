@@ -86,7 +86,7 @@
            <div class="row">
                 <div class="col col-lg-2">
                     <h4 class="card-title">
-                        <a href="ProductoServlet_admin?accion=nuevo" class="btn btn-outline-success">Agregar Usuario</a>
+                        <a href="UsuarioServlet?accion=nuevo" class="btn btn-outline-success">Agregar Usuario</a>
                     </h4>
                 </div>
             </div>
