@@ -98,7 +98,7 @@
                     <h1 class="text-center">Datos Producto</h1>
                 </div>
                 <div class="card card-body">
-                    <form method="post" action="ProductoServlet?accion=guardar">
+                    <form method="post" action="ProductoServlet_admin?accion=guardar">
                         <div class="mb-3">
                             <label class="form-label">ID </label>
                             <input type="text" 

@@ -101,7 +101,7 @@
                     <h1 class="text-center">Datos Categoria</h1>
                 </div>
                 <div class="card card-body">
-                    <form method="post" action="CategoriaServlet?accion=guardar">
+                    <form method="post" action="CategoriaServlet_admin?accion=guardar">
                         <div class="mb-3">
                             <label class="form-label">ID </label>
                             <input type="text" 
