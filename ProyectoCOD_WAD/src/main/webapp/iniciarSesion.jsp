@@ -21,10 +21,42 @@
              }
              
              body{
-                 background-image:url('http://www.defondos.com/images/wallpapers/white%20wallpaper%20(30)-991074_800.jpeg');
+                 background-image:url('https://img.freepik.com/foto-gratis/viejo-fondo-negro-textura-grunge-papel-tapiz-oscuro-pizarra-pizarra-pared-habitacion_1258-28313.jpg?size=626&ext=jpg');
                  background-size:cover;
              }
-            
+             
+             h1{
+               color: #FFF;  
+             }
+             
+             .container{
+                 width: 40%;
+                 margin-top: 10%; 
+             }
+             
+             .p-5{
+                 background-color: #3C3D3C;
+                 border-radius: 2cm;
+             }
+             
+             .logo{
+               width: 50%;
+               margin-bottom: 3%;
+               margin-left: 25%;
+             }
+             
+             .form-control{
+                  background-color: transparent;
+                  color:#FFF;
+             }
+             .btn{
+               background-color: #9E7409;  
+             } 
+             
+             .btn:hover{
+               background-color: #66520A;
+               color:#FFF;
+             } 
         </style>
         
         <title>Inicio COD CORP</title>
@@ -34,17 +66,17 @@
             <main class="form-signin">
                 <div class="p-5">
                     <form method="POST" action="ProcesarInicioSesion">
-                        <h1 class="h3 my-3 fw-normal">Iniciar Sesión</h1>
+                        <img src="./imagenes/codC.png" alt="logo cod corp" class="logo"/>
 
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="name@example.com" >
-                            <label for="usuario">Usuario</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><img src="./imagenes/user1.png" alt="imagen usuario" width="30"/></span>
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" >
                         </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Password" >
-                            <label for="contrasena">Contraseña</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"><img src="./imagenes/contraseña.png" alt="imagen contraseña" width="30"/></span>
+                            <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" >
                         </div>
-                        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Iniciar Sesión</button>
+                        <button class="w-100 btn btn-lg  mt-3" type="submit">Iniciar Sesión</button>
                     </form>
                 </div>
 

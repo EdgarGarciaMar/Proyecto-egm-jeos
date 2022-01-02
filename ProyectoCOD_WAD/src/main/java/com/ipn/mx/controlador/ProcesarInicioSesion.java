@@ -84,9 +84,13 @@ public class ProcesarInicioSesion extends HttpServlet {
                 
                 if(dto != null){
                     HttpSession sesion = request.getSession();
-                    sesion.setAttribute("dtoUsuario", dto);
-                    
-                    response.sendRedirect("index.jsp");
+                    if(dto.getEntidad().getNombreUsuario().equals("admin") && dto.getEntidad().getClaveUsuario().equals("admin")){
+                        sesion.setAttribute("dtoUsuario", dto);
+                        response.sendRedirect("index_admin.jsp");
+                    }else{
+                      sesion.setAttribute("dtoUsuario", dto);
+                      response.sendRedirect("index.jsp");
+                    }
                 }else{
                     response.sendRedirect("iniciarSesion.jsp?msg=Usuario o contraseña incorrecta");
                 }
