@@ -5,10 +5,7 @@
  */
 package com.ipn.mx.controlador;
 
-import com.ipn.mx.modelo.dao.CategoriaDAO;
-import com.ipn.mx.modelo.dao.GraficaDAO;
 import com.ipn.mx.modelo.dao.ProductoDAO;
-import com.ipn.mx.modelo.dto.GraficaDTO;
 import com.ipn.mx.modelo.dto.ProductoDTO;
 import com.ipn.mx.modelo.dto.UsuarioDTO;
 import com.ipn.mx.utilerias.EnviarMail;
@@ -17,7 +14,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,8 +32,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 
 /**
  *
@@ -73,37 +67,19 @@ public class ProductoServlet extends HttpServlet {
             if (accion.equals("nuevo")) {
                 agregarProducto(request, response);
             } else {
-                if (accion.equals("eliminar")) {
-                    eliminarProducto(request, response);
+                if (accion.equals("ver")) {
+                    mostrarProducto(request, response);
                 } else {
-                    if (accion.equals("actualizar")) {
-                        actualizarProducto(request, response);
+                    if (accion.equals("comprar")) {
+                        comprarProducto(request, response);
                     } else {
-                        if (accion.equals("guardar")) {
-                            almacenarProducto(request, response);
-                        } else {
-                            if (accion.equals("ver")) {
-                                mostrarProducto(request, response);
-                            } else {
-                                if (accion.equals("verReporte")) {
-                                    mostrarReporte(request, response);
-                                } else {
-                                    if (accion.equals("graficar")) {
-                                        mostrarGrafica(request, response);
-                                    } else {
-                                        if (accion.equals("comprar")) {
-                                            comprarProducto(request, response);
-                                        } else {
-                                            if (accion.equals("guardarCompra")) {
-                                                almacenarCompra(request, response);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                        if (accion.equals("guardarCompra")) {
+                            almacenarCompra(request, response);
                         }
+
                     }
                 }
+
             }
         }
     }
@@ -169,36 +145,7 @@ public class ProductoServlet extends HttpServlet {
         }
     }
 
-    private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) {
-        ProductoDAO dao = new ProductoDAO();
-        ProductoDTO dto = new ProductoDTO();
-        dto.getEntidad().setIdProducto(Integer.parseInt(request.getParameter("id")));
-
-        try {
-            dao.delete(dto);
-            listaDeProductos(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void actualizarProducto(HttpServletRequest request, HttpServletResponse response) {
-        ProductoDAO dao = new ProductoDAO();
-        ProductoDTO dto = new ProductoDTO();
-        dto.getEntidad().setIdProducto(Integer.parseInt(request.getParameter("id")));
-
-        RequestDispatcher vista = request.getRequestDispatcher("/productos/productosForm.jsp");
-
-        try {
-            dto = dao.read(dto);
-            request.setAttribute("producto", dto);
-            vista.forward(request, response);
-
-        } catch (SQLException | ServletException | IOException ex) {
-            Logger.getLogger(ProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     private void mostrarProducto(HttpServletRequest request, HttpServletResponse response) {
         ProductoDAO dao = new ProductoDAO();
         ProductoDTO dto = new ProductoDTO();
@@ -216,93 +163,6 @@ public class ProductoServlet extends HttpServlet {
         }
     }
 
-    private void almacenarProducto(HttpServletRequest request, HttpServletResponse response) {
-        ProductoDAO dao = new ProductoDAO();
-        ProductoDTO dto = new ProductoDTO();
-
-        if (!request.getParameter("txtIdProducto").equals("")) {
-            dto.getEntidad().setIdProducto(Integer.parseInt(request.getParameter("txtIdProducto")));
-        }
-
-        dto.getEntidad().setNombreProducto(request.getParameter("txtNombre"));
-        dto.getEntidad().setDescripcionProducto(request.getParameter("txtDescripcion"));
-        dto.getEntidad().setPrecio(Float.parseFloat(request.getParameter("txtPrecio")));
-        dto.getEntidad().setExistencia(Integer.parseInt(request.getParameter("txtExistencia")));
-        dto.getEntidad().setStockMinimo(Integer.parseInt(request.getParameter("txtStock")));
-        dto.getEntidad().setClaveCategoria(Integer.parseInt(request.getParameter("txtClaveCategoria")));
-
-        try {
-
-            if (!request.getParameter("txtIdProducto").equals("")) {//CREAR
-                dao.Update(dto);
-                request.setAttribute("mensaje", "Producto actualizado con exito.");
-            } else {
-                dao.create(dto);
-                request.setAttribute("mensaje", "Producto almacenado con exito.");
-            }
-
-            listaDeProductos(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductoServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    private void mostrarReporte(HttpServletRequest request, HttpServletResponse response) {
-        ProductoDAO dao = new ProductoDAO();
-        try {
-            ServletOutputStream sos = response.getOutputStream();
-            File reporte = new File(getServletConfig().getServletContext().getRealPath("/reportes/ReporteGeneralProductos.jasper"));
-            byte[] b = JasperRunManager.runReportToPdf(reporte.getPath(), null, dao.conectar());
-            response.setContentType("application/pdf");
-            response.setContentLength(b.length);
-
-            sos.write(b, 0, b.length);
-            sos.flush();
-            sos.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JRException ex) {
-            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void mostrarGrafica(HttpServletRequest request, HttpServletResponse response) {
-
-        JFreeChart graficaProductos = ChartFactory.createBarChart(
-                "Armas",
-                "",
-                "Existencia",
-                obtenerExistenciaProductos(),
-                PlotOrientation.VERTICAL,
-                true, true, false);
-
-        String archivo = getServletConfig().getServletContext().getRealPath("/graficaProductos.png");
-        try {
-            ChartUtils.saveChartAsPNG(new File(archivo), graficaProductos, 1000, 500);
-            RequestDispatcher vista = request.getRequestDispatcher("graficaProductos.jsp");
-            vista.forward(request, response);
-        } catch (IOException | ServletException ex) {
-            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private CategoryDataset obtenerExistenciaProductos() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        ProductoDAO dao = new ProductoDAO();
-        try {
-            List datos = dao.readAll();
-            for (int i = 0; i < datos.size(); i++) {
-                ProductoDTO dto = (ProductoDTO) datos.get(i);
-                dataset.addValue(dto.getEntidad().getExistencia(), "(" + dto.getEntidad().getIdProducto() + ") " + dto.getEntidad().getNombreProducto(), "Producto");
-                //dataset.addValue(dto.getEntidad().getExistencia(),"Producto", "("+dto.getEntidad().getIdProducto()+") "+dto.getEntidad().getNombreProducto());
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return dataset;
-    }
 
     private void comprarProducto(HttpServletRequest request, HttpServletResponse response) {
         ProductoDAO dao = new ProductoDAO();

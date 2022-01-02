@@ -109,11 +109,10 @@
              }
         </style>  
 
-        <title>Inicio</title>
+        <title>Cod Corp</title>
     </head>
     <body>
         <div class="container">
-
 
 
             <nav class="navbar navbar-expand-lg navbar-light ">
